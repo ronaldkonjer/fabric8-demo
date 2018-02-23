@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: helloservice
+data:
+  application.yaml: |-
+    demo:
+      message: hello, spring cloud kubernetes from Las Vegas!
