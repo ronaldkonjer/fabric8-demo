@@ -2,11 +2,11 @@
 
 if [ ! -d .git ]; then
     git init
-    cp ~/dev/.gitignore .
+    cp ~/.gitignore_global .
     git add .
     git commit -m 'initial commit'
 else
-    cp ~/dev/.gitignore .
+    cp ~/.gitignore_global .
     git add .
 fi
 

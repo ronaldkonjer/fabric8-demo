@@ -1,89 +1,104 @@
 ---
-apiVersion: "v1"
-kind: "List"
+apiVersion: v1
+kind: List
 items:
-- apiVersion: "v1"
-  kind: "Service"
+- apiVersion: v1
+  kind: Service
   metadata:
     annotations:
-      fabric8.io/iconUrl: "img/icons/spring-boot.svg"
-      fabric8.io/git-commit: "9f6eed80a6ca102ea8077b50311d39be20efda98"
-      fabric8.io/git-branch: "master"
+      fabric8.io/git-commit: d292e5533fcd992646d75264dfbdabcb642bb3a9
+      prometheus.io/port: "9779"
+      fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/demo
+      fabric8.io/iconUrl: img/icons/spring-boot.svg
+      fabric8.io/git-branch: master
+      prometheus.io/scrape: "true"
+      fabric8.io/scm-tag: HEAD
     labels:
-      provider: "fabric8"
-      project: "demo"
-      version: "0.0.1-SNAPSHOT"
-      group: "com.example"
-    name: "demo"
+      expose: "true"
+      app: demo
+      provider: fabric8
+      version: 0.0.1-SNAPSHOT
+      group: com.example
+    name: demo
   spec:
     ports:
-    - port: 8080
-      protocol: "TCP"
+    - name: http
+      port: 8080
+      protocol: TCP
       targetPort: 8080
     selector:
-      project: "demo"
-      provider: "fabric8"
-      group: "com.example"
-    type: "LoadBalancer"
-- apiVersion: "extensions/v1beta1"
-  kind: "Deployment"
+      app: demo
+      provider: fabric8
+      group: com.example
+- apiVersion: extensions/v1beta1
+  kind: Deployment
   metadata:
     annotations:
-      fabric8.io/iconUrl: "img/icons/spring-boot.svg"
-      fabric8.io/git-commit: "9f6eed80a6ca102ea8077b50311d39be20efda98"
-      fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=demo&var-version=0.0.1-SNAPSHOT"
-      fabric8.io/git-branch: "master"
+      fabric8.io/git-commit: d292e5533fcd992646d75264dfbdabcb642bb3a9
+      fabric8.io/iconUrl: img/icons/spring-boot.svg
+      fabric8.io/git-branch: master
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=demo&var-version=0.0.1-SNAPSHOT
+      fabric8.io/scm-tag: HEAD
+      fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/demo
     labels:
-      provider: "fabric8"
-      project: "demo"
-      version: "0.0.1-SNAPSHOT"
-      group: "com.example"
-    name: "demo"
+      app: demo
+      provider: fabric8
+      version: 0.0.1-SNAPSHOT
+      group: com.example
+    name: demo
   spec:
     replicas: 1
+    revisionHistoryLimit: 2
     selector:
       matchLabels:
-        project: "demo"
-        provider: "fabric8"
-        group: "com.example"
+        app: demo
+        provider: fabric8
+        group: com.example
     template:
       metadata:
         annotations:
-          fabric8.io/iconUrl: "img/icons/spring-boot.svg"
-          fabric8.io/git-commit: "9f6eed80a6ca102ea8077b50311d39be20efda98"
-          fabric8.io/metrics-path: "dashboard/file/kubernetes-pods.json/?var-project=demo&var-version=0.0.1-SNAPSHOT"
-          fabric8.io/git-branch: "master"
+          fabric8.io/git-commit: d292e5533fcd992646d75264dfbdabcb642bb3a9
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=demo&var-version=0.0.1-SNAPSHOT
+          fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/demo
+          fabric8.io/iconUrl: img/icons/spring-boot.svg
+          fabric8.io/git-branch: master
+          fabric8.io/scm-tag: HEAD
         labels:
-          provider: "fabric8"
-          project: "demo"
-          version: "0.0.1-SNAPSHOT"
-          group: "com.example"
+          app: demo
+          provider: fabric8
+          version: 0.0.1-SNAPSHOT
+          group: com.example
       spec:
         containers:
         - env:
-          - name: "KUBERNETES_NAMESPACE"
+          - name: KUBERNETES_NAMESPACE
             valueFrom:
               fieldRef:
-                fieldPath: "metadata.namespace"
-          image: "example/demo:snapshot-180223-092953-0905"
-          imagePullPolicy: "IfNotPresent"
+                fieldPath: metadata.namespace
+          image: example/demo:snapshot-180223-095824-0411
+          imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
-              path: "/health"
+              path: /health
               port: 8080
+              scheme: HTTP
             initialDelaySeconds: 180
-          name: "spring-boot"
+          name: spring-boot
           ports:
           - containerPort: 8080
-            protocol: "TCP"
+            name: http
+            protocol: TCP
           - containerPort: 9779
-            protocol: "TCP"
+            name: prometheus
+            protocol: TCP
           - containerPort: 8778
-            protocol: "TCP"
+            name: jolokia
+            protocol: TCP
           readinessProbe:
             httpGet:
-              path: "/health"
+              path: /health
               port: 8080
+              scheme: HTTP
             initialDelaySeconds: 10
           securityContext:
             privileged: false

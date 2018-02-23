@@ -1,24 +1,29 @@
 ---
-apiVersion: "v1"
-kind: "Service"
+apiVersion: v1
+kind: Service
 metadata:
   annotations:
-    fabric8.io/iconUrl: "img/icons/spring-boot.svg"
-    fabric8.io/git-commit: "9f6eed80a6ca102ea8077b50311d39be20efda98"
-    fabric8.io/git-branch: "master"
+    fabric8.io/git-commit: d292e5533fcd992646d75264dfbdabcb642bb3a9
+    prometheus.io/port: "9779"
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/demo
+    fabric8.io/iconUrl: img/icons/spring-boot.svg
+    fabric8.io/git-branch: master
+    prometheus.io/scrape: "true"
+    fabric8.io/scm-tag: HEAD
   labels:
-    provider: "fabric8"
-    project: "demo"
-    version: "0.0.1-SNAPSHOT"
-    group: "com.example"
-  name: "demo"
+    expose: "true"
+    app: demo
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+    group: com.example
+  name: demo
 spec:
   ports:
-  - port: 8080
-    protocol: "TCP"
+  - name: http
+    port: 8080
+    protocol: TCP
     targetPort: 8080
   selector:
-    project: "demo"
-    provider: "fabric8"
-    group: "com.example"
-  type: "LoadBalancer"
+    app: demo
+    provider: fabric8
+    group: com.example

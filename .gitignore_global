@@ -1,0 +1,14 @@
+*~
+.DS_Store
+*.iml
+.idea
+
+# Terraform
+.terraform
+*.tfvars
+*.tfstate.backup
+*.tfstate
+
+# Keys
+*key
+*.pub
