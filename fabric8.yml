@@ -1,0 +1,13 @@
+---
+buildName: "demo-2"
+links:
+  Git: "http://gogs/gogsadmin/demo.git"
+  Job: "http://192.168.99.100:30439/job/demo"
+  Production: "http://10.107.214.55:80/kubernetes/pods?namespace=default-production"
+  Staging: "http://10.107.214.55:80/kubernetes/pods?namespace=default-staging"
+  Testing: "http://10.107.214.55:80/kubernetes/pods?namespace=default-testing"
+environments:
+  Testing: "default-testing"
+  Staging: "default-staging"
+  Production: "default-production"
+useLocalFlow: true

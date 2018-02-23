@@ -12,3 +12,5 @@
 # Keys
 *key
 *.pub
+
+target/*
